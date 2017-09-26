@@ -1,8 +1,6 @@
 package eu.one2many.bastiaan.one2manypoc;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -18,10 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import eu.one2many.bastiaan.one2manypoc.database.MessageSaverContract;
 import eu.one2many.bastiaan.one2manypoc.database.MessageSaverDbHelper;
@@ -115,31 +110,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
     }
 
-//    private BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//
-//            // Retrieve the data from the intent and do something with it
-//            // For now lets try out some fields like getNotification() and getData() and show them
-//            // in some TextViews for now.
-//
-//            Log.e("BroadcastReceiver", "The BroadcastReceiver in the MainActivity caught the broadcast, should read intent and set views.");
-//
-//            dataTV.setText(intent.getExtras().getString("message"));
-//
-//            Bundle bundle = intent.getExtras();
-//            Message message = new Message(
-//                    bundle.getString("title") + " [onReceive]",
-//                    bundle.getString("message"),
-//                    bundle.getLong("google.sent_time")
-//            );
-//            messages.add(message);
-//            adapter.notifyDataSetChanged();
-//            Log.e("SavingMessageToDatabase", "We're saving a new message from ONRECEIVE!");
-//            saveMessageToDatabase(message);
-//        }
-//    };
-
     public void setViews(Message message){
 
         Log.d("SetViews", "THE SET VIEWS METHOD IS CALLED");
@@ -181,25 +151,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
         }
 
         return result;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_app, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.action_clear :
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.execSQL("DROP TABLE IF EXISTS " + MessageSaverContract.MessageEntry.TABLE_NAME);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
