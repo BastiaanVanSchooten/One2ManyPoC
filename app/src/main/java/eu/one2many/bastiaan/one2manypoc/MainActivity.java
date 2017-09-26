@@ -38,16 +38,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
         dbHelper = new MessageSaverDbHelper(this);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
-
         dataTV = (TextView) findViewById(R.id.tv_data);
-
-//        Below code can be used to make the token visible for debugging:
-//        String token = FirebaseInstanceId.getInstance().getToken();
-//        if(token != null) {
-//            Log.d("ID-SERVICE", token);
-//            tvTest.setText(token);
-//        }
 
         messages = retrieveMessagesFromDatabase();
 
@@ -62,6 +53,22 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
                 dataTV.setText(message.getText());
             }
         });
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
+
+        // Experimental:
+        if(savedInstanceState != null){
+            // We are recreated (for example after an orientation change), so we need to pass our
+            // 'new us' to the singleton broadcast receiver for the ui callback.
+            ReceiverTest.getInstance(this).updateListenerInstance(this);
+        }
+
+        //        Below code can be used to make the token visible for debugging:
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        if(token != null) {
+//            Log.d("ID-SERVICE", token);
+//            tvTest.setText(token);
+//        }
     }
 
     @Override
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
     public void setViews(Message message){
 
-        Log.d("SetViews", "THE SET VIEWS METHOD IS CALLED");
+        Log.w("SetViews", "THE SET VIEWS METHOD IS CALLED");
         dataTV.setText(message.getText());
         messages.add(message);
         adapter.notifyDataSetChanged();

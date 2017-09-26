@@ -24,6 +24,10 @@ public class ReceiverTest extends BroadcastReceiver{
         this.listener = context;
     }
 
+    public void updateListenerInstance(ReceiverTestInterface newListener){
+        listener = newListener;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         // Retrieve the data from the intent and do something with it
