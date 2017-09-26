@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "933270152103",
+    "firebase_url": "https://one2manypoc-179711.firebaseio.com",
+    "project_id": "one2manypoc-179711",
+    "storage_bucket": "one2manypoc-179711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933270152103:android:f581ef9e59edae86",
+        "android_client_info": {
+          "package_name": "eu.one2many.bastiaan.one2manypoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933270152103-80hc0ab2bbmpm4vdun02kmnk86tahhcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eu.one2many.bastiaan.one2manypoc",
+            "certificate_hash": "0c4374d4f9dde5ecc31f31c50b6a032bd07e8336"
+          }
+        },
+        {
+          "client_id": "933270152103-1as05cakdp175ussm34nmhpl634eboh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYnLqwcOi086cloG9l5qjKan2AWVQtYa8"
+        },
+        {
+          "current_key": "AIzaSyAJUjxVJXM9jPIXbg_jYwKX6pGCf5yxYFg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933270152103-1as05cakdp175ussm34nmhpl634eboh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
