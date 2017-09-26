@@ -8,13 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -56,12 +56,14 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
         LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
 
-        // Experimental:
-        if(savedInstanceState != null){
-            // We are recreated (for example after an orientation change), so we need to pass our
-            // 'new us' to the singleton broadcast receiver for the ui callback.
-            ReceiverTest.getInstance(this).updateListenerInstance(this);
-        }
+//        // Experimental:
+//        if(savedInstanceState != null){
+//            // We are recreated (for example after an orientation change), so we need to pass our
+//            // 'new us' to the singleton broadcast receiver for the ui callback.
+//            ReceiverTest.getInstance(this).updateListenerInstance(this);
+//        }
+
+        FirebaseMessaging.getInstance().subscribeToTopic("TestTopicNotInTheWayOfOthers");
 
         //        Below code can be used to make the token visible for debugging:
 //        String token = FirebaseInstanceId.getInstance().getToken();
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
     @Override
     protected void onResume() {
         super.onResume();
+
+        ReceiverTest.getInstance(this).updateListenerInstance(this);
 
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
