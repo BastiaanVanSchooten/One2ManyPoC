@@ -20,8 +20,6 @@ public class CustomReceiveMessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.e("MessageReceiverService", "We made it to the receiving service!");
-
         // Prepare the intent object to be filled with the retrieved data.
         Intent intent = new Intent("MessageContents");
 
@@ -43,10 +41,8 @@ public class CustomReceiveMessageService extends FirebaseMessagingService {
             }
         }
 
-        // Add the date the message was sent to the bundle
+        // Add the date the message was sent to the intent and broadcast it.
         intent.putExtra("google.sent_time", remoteMessage.getSentTime());
-
-        Log.e("MessageReceiverService", "Made it to the end, next call should be to broadcast the intent.");
         broadcaster.sendBroadcast(intent);
     }
 }

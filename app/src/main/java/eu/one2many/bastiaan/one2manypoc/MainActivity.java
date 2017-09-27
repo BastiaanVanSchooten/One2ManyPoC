@@ -27,7 +27,7 @@ import eu.one2many.bastiaan.one2manypoc.database.MessageSaverDbHelper;
 import eu.one2many.bastiaan.one2manypoc.model.Message;
 import eu.one2many.bastiaan.one2manypoc.view.MessageListAdapter;
 
-public class MainActivity extends AppCompatActivity implements ReceiverTestInterface {
+public class MainActivity extends AppCompatActivity implements NotificationReceiverCallbacks {
 
     private Button subTest;
     private TextView dataTV;
@@ -67,15 +67,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
             }
         });
 
-//        ReceiverTest.getInstance(this).updateListenerInstance(this);
-
-//        // Experimental:
-//        if(savedInstanceState != null){
-//            // We are recreated (for example after an orientation change), so we need to pass our
-//            // 'new us' to the singleton broadcast receiver for the ui callback.
-//            ReceiverTest.getInstance(this).updateListenerInstance(this);
-//        }
-
         //        Below code can be used to make the token visible for debugging:
 //        String token = FirebaseInstanceId.getInstance().getToken();
 //        if(token != null) {
@@ -88,25 +79,16 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
     protected void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
-        ReceiverTest.getInstance(this).updateListenerInstance(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(NotificationReceiver.getInstance(this), new IntentFilter("MessageContents"));
+        NotificationReceiver.getInstance(this).updateListenerInstance(this);
 
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             // If there are extras in the bundle, the activity was resumed from a notification
-            // The default bundle used on startup and initial creation does not include extras. (?)
-
-            // Code below used to debug the getExtras() contents
-//            Bundle bundle = intent.getExtras();
-//            for (String key : bundle.keySet()) {
-//                Object value = bundle.get(key);
-//                Log.e("Intent test", String.format("%s %s (%s)", key,
-//                        value.toString(), value.getClass().getName()));
-//            }
+            // The default bundle used on startup and initial creation does not include extras.
             Bundle bundle = intent.getExtras();
 
             // We now know that there is a bundle with some data, but not with what
-            // This could be the problem we are having with the onResume()
             // Checking for the google.sent_time should confirm there is a message in there.
             if(bundle.getLong("google.sent_time") != 0) {
                 dataTV.setText(bundle.getString("message"));
@@ -125,18 +107,11 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
                     saveMessageToDatabase(message);
                 }
             }
-            // We are done processing the intent, and it should not be processed and added to the
-            // list and database a second time. For now, let's set the intent to -null- explicitly.
-            // Admittedly, this looks like a pretty crude hack, and there should probably be a cleaner
-            // way to check this, like Android.FLAGS thingies.
-            this.setIntent(null);
         }
-
     }
 
     public void setViews(Message message){
 
-        Log.w("SetViews", "THE SET VIEWS METHOD IS CALLED");
         dataTV.setText(message.getText());
         messages.add(message);
         adapter.notifyDataSetChanged();
@@ -144,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
     public void saveMessageToDatabase(Message message) {
 
-        Log.d("SaveMessageToDb", "THE SAVE MESSAGE TO DB METHOD IS CALLED");
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -187,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(ReceiverTest.getInstance(this));
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(NotificationReceiver.getInstance(this));
     }
 
     private boolean isNewMessage(Message message){

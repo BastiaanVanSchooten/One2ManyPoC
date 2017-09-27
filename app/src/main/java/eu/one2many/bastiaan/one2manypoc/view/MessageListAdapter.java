@@ -16,10 +16,6 @@ import java.util.List;
 import eu.one2many.bastiaan.one2manypoc.R;
 import eu.one2many.bastiaan.one2manypoc.model.Message;
 
-/**
- * Created by Bastiaan on 13-9-2017.
- */
-
 public class MessageListAdapter extends ArrayAdapter<Message> {
 
     public MessageListAdapter(@NonNull Context context, @NonNull List<Message> objects) {
