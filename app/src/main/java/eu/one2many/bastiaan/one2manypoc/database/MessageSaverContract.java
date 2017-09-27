@@ -19,6 +19,7 @@ public final class MessageSaverContract {
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_MESSAGE = "text";
         public static final String COLUMN_NAME_DATE = "date";
+        public static final String COLUMN_NAME_TOPIC = "topic";
 
     }
 

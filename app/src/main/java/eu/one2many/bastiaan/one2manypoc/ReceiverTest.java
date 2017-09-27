@@ -31,8 +31,6 @@ public class ReceiverTest extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         // Retrieve the data from the intent and do something with it
-        // For now lets try out some fields like getNotification() and getData() and show them
-        // in some TextViews for now.
 
         Log.e("BroadcastReceiver", "The BroadcastReceiver in the MainActivity caught the broadcast, should read intent and set views.");
 
@@ -40,7 +38,8 @@ public class ReceiverTest extends BroadcastReceiver{
         Message message = new Message(
                 bundle.getString("title") + " [onReceive]",
                 bundle.getString("message"),
-                bundle.getLong("google.sent_time")
+                bundle.getLong("google.sent_time"),
+                bundle.getString("topic")
         );
 
         Log.e("SavingMessageToDatabase", "We're saving a new message from ONRECEIVE!");

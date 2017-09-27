@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#fb6923</color>
     <color name="colorPrimaryDark">#333333</color>
-    <color name="colorAccent">#333333</color>
+    <color name="colorAccent">#fb6923</color>
     <color name="offWhite">#FEFEFE</color>
+    <color name="colorSwitchThumbNormal">#333333</color>
 </resources>

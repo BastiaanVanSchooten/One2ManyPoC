@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -54,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
             }
         });
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
+
+//        ReceiverTest.getInstance(this).updateListenerInstance(this);
 
 //        // Experimental:
 //        if(savedInstanceState != null){
@@ -62,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 //            // 'new us' to the singleton broadcast receiver for the ui callback.
 //            ReceiverTest.getInstance(this).updateListenerInstance(this);
 //        }
-
-        FirebaseMessaging.getInstance().subscribeToTopic("TestTopicNotInTheWayOfOthers");
 
         //        Below code can be used to make the token visible for debugging:
 //        String token = FirebaseInstanceId.getInstance().getToken();
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
     protected void onResume() {
         super.onResume();
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(ReceiverTest.getInstance(this), new IntentFilter("MessageContents"));
         ReceiverTest.getInstance(this).updateListenerInstance(this);
 
         Intent intent = getIntent();
@@ -102,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
                 Message message = new Message(
                         bundle.getString("title") + " [onResume]",
                         bundle.getString("message"),
-                        bundle.getLong("google.sent_time")
+                        bundle.getLong("google.sent_time"),
+                        bundle.getString("topic")
                 );
 
                 if(isNewMessage(message)) {
@@ -153,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
             result.add(new Message(
                     cursor.getString(cursor.getColumnIndexOrThrow(MessageSaverContract.MessageEntry.COLUMN_NAME_TITLE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(MessageSaverContract.MessageEntry.COLUMN_NAME_MESSAGE)),
-                    cursor.getLong(cursor.getColumnIndexOrThrow(MessageSaverContract.MessageEntry.COLUMN_NAME_DATE))));
+                    cursor.getLong(cursor.getColumnIndexOrThrow(MessageSaverContract.MessageEntry.COLUMN_NAME_DATE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MessageSaverContract.MessageEntry.COLUMN_NAME_TOPIC))));
         }
         cursor.close();
 
@@ -183,5 +188,26 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_app, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.topics :
+                // Start activity/fragment for managing subscriptions
+                Intent intent = new Intent(this, SubscriptionActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

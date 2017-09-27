@@ -15,6 +15,7 @@ public class MessageSaverDbHelper extends SQLiteOpenHelper {
                     MessageSaverContract.MessageEntry._ID + " INTEGER PRIMARY KEY," +
                     MessageSaverContract.MessageEntry.COLUMN_NAME_TITLE + " TEXT," +
                     MessageSaverContract.MessageEntry.COLUMN_NAME_MESSAGE + " TEXT," +
+                    MessageSaverContract.MessageEntry.COLUMN_NAME_TOPIC + " TEXT," +
                     MessageSaverContract.MessageEntry.COLUMN_NAME_DATE + " INTEGER)";
 
     public MessageSaverDbHelper(Context context) {

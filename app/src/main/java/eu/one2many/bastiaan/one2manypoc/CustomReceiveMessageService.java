@@ -33,10 +33,14 @@ public class CustomReceiveMessageService extends FirebaseMessagingService {
 
         // Check if there is data in the message
         if(remoteMessage.getData().size() > 0){
-            String message = remoteMessage.getData().get("message");
-            String title = remoteMessage.getData().get("title");
-            intent.putExtra("message", message);
-            intent.putExtra("title", title);
+            intent.putExtra("title", remoteMessage.getData().get("title"));
+            intent.putExtra("message", remoteMessage.getData().get("message"));
+
+            if(remoteMessage.getData().get("topic") != null) {
+                intent.putExtra("topic", remoteMessage.getData().get("topic"));
+            } else {
+                intent.putExtra("topic", "General");
+            }
         }
 
         // Add the date the message was sent to the bundle
