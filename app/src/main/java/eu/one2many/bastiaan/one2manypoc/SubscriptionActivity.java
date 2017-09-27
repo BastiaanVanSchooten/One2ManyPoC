@@ -10,6 +10,8 @@ import android.widget.CompoundButton;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import eu.one2many.bastiaan.one2manypoc.database.MessageSaverDbHelper;
+
 /**
  * Activity for managing subscriptions to Firebase topics.
  */
@@ -17,20 +19,14 @@ public class SubscriptionActivity extends AppCompatActivity {
 
     private boolean topic1, topic2;
     private SwitchCompat switch1, switch2;
+    MessageSaverDbHelper dbHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscriptions);
 
-        // Do smart stuff, like:
-        // Get SharedPreferences handle
-        // Read current settings
-        //
-        // Bind switch views to variables, and assign onChangeListeners.
-        // When change detected, (un)sub to the topic and update SharedPreferences.
-
-        // Save button maken, of niet? Alleen maar voor de illusie.
+        dbHelper = new MessageSaverDbHelper(this);
 
         switch1 = (SwitchCompat) findViewById(R.id.switch_subscriptions_topic_1);
         switch2 = (SwitchCompat) findViewById(R.id.switch_subscriptions_topic_2);
@@ -75,13 +71,6 @@ public class SubscriptionActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
-//
-//    class switchListener implements CompoundButton.OnCheckedChangeListener{
-//
-//        @Override
-//        public void onCheckedChanged(CompoundButton widget, boolean checked) {
-//
-//        }
-//    }
 }

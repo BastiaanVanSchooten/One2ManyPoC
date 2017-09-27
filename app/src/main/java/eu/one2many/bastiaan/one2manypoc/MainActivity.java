@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
@@ -28,11 +29,12 @@ import eu.one2many.bastiaan.one2manypoc.view.MessageListAdapter;
 
 public class MainActivity extends AppCompatActivity implements ReceiverTestInterface {
 
-    TextView dataTV;
-    ListView messageListView;
-    ArrayList<Message> messages;
-    MessageSaverDbHelper dbHelper;
-    MessageListAdapter adapter;
+    private Button subTest;
+    private TextView dataTV;
+    private ListView messageListView;
+    private ArrayList<Message> messages;
+    private MessageSaverDbHelper dbHelper;
+    private MessageListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
 
         dbHelper = new MessageSaverDbHelper(this);
 
+        subTest = (Button) findViewById(R.id.bt_sub_test);
         dataTV = (TextView) findViewById(R.id.tv_data);
 
         messages = retrieveMessagesFromDatabase();
@@ -57,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements ReceiverTestInter
             }
         });
 
+        subTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseMessaging.getInstance().subscribeToTopic("topic1");
+            }
+        });
 
 //        ReceiverTest.getInstance(this).updateListenerInstance(this);
 
