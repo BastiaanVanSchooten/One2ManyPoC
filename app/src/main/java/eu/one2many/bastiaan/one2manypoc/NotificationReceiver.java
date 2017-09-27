@@ -33,7 +33,7 @@ public class NotificationReceiver extends BroadcastReceiver{
         // Retrieve the data from the intent and do something with it
         Bundle bundle = intent.getExtras();
         Message message = new Message(
-                bundle.getString("title") + " [onReceive]",
+                bundle.getString("title"),
                 bundle.getString("message"),
                 bundle.getLong("google.sent_time"),
                 bundle.getString("topic")

@@ -13,12 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
-
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -29,7 +26,6 @@ import eu.one2many.bastiaan.one2manypoc.view.MessageListAdapter;
 
 public class MainActivity extends AppCompatActivity implements NotificationReceiverCallbacks {
 
-    private Button subTest;
     private TextView dataTV;
     private ListView messageListView;
     private ArrayList<Message> messages;
@@ -42,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements NotificationRecei
         setContentView(R.layout.activity_main);
 
         dbHelper = new MessageSaverDbHelper(this);
-
-        subTest = (Button) findViewById(R.id.bt_sub_test);
         dataTV = (TextView) findViewById(R.id.tv_data);
 
         messages = retrieveMessagesFromDatabase();
@@ -57,13 +51,6 @@ public class MainActivity extends AppCompatActivity implements NotificationRecei
 
                 Message message = (Message) adapterView.getItemAtPosition(i);
                 dataTV.setText(message.getText());
-            }
-        });
-
-        subTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseMessaging.getInstance().subscribeToTopic("topic1");
             }
         });
 
@@ -94,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NotificationRecei
                 dataTV.setText(bundle.getString("message"));
 
                 Message message = new Message(
-                        bundle.getString("title") + " [onResume]",
+                        bundle.getString("title"),
                         bundle.getString("message"),
                         bundle.getLong("google.sent_time"),
                         bundle.getString("topic")
